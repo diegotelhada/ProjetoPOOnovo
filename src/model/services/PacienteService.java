@@ -8,7 +8,7 @@ import model.entities.Paciente;
 
 public class PacienteService {
 	
-	private PacienteDao dao = new DaoFactory().createPacienteDao();
+	private PacienteDao dao = DaoFactory.createPacienteDao();
 	
 	public List<Paciente> findAll(){
 		return dao.findAll();

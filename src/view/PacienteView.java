@@ -1,15 +1,9 @@
 package view;
 
-import java.net.URL;
 import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
 
-import gui.util.Utils;
+import controller.PacienteController;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,24 +14,24 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToolBar;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.dao.impl.PacienteDaoJDBC;
 import model.entities.Paciente;
-import model.services.PacienteService;
 
-public class PacienteView extends Application implements Initializable{
+public class PacienteView extends Application{
 	
-	private PacienteService paciente;
 	private TableView<Paciente> tableViewPaciente = new TableView<>();
 	private TableColumn<Paciente, Integer> tableColumnId = new TableColumn<>("ID");
-	private TableColumn<Paciente, String> tableColumnNome = new TableColumn<>("NOME");
+	private TableColumn<Paciente, String>   tableColumnNome = new TableColumn<>("NOME");
 	private TableColumn<Paciente, Date> tableColumnData = new TableColumn<>("DATA");
 	private TableColumn<Paciente, Paciente> tableColumnEDIT = new TableColumn<>();
 	private TableColumn<Paciente, Paciente> tableColumnREMOVE = new TableColumn<>();
-	private ObservableList<Paciente> obsList;
+	
+	private PacienteController control = new PacienteController();
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void start(Stage stage) throws Exception {
 		ScrollPane painel = new ScrollPane();
@@ -69,8 +63,17 @@ public class PacienteView extends Application implements Initializable{
 		
 		ToolBar toolButtons = new ToolBar();
 		Button btNovo = new Button("Novo");
+		Button btAtualizar = new Button("Atualizar");
 		
-		toolButtons.getItems().add(btNovo);
+		toolButtons.getItems().addAll(btNovo, btAtualizar);
+		
+		btNovo.setOnAction((e) -> {
+			control.novo(stage);
+		});
+		
+		btAtualizar.setOnAction((e) -> {
+			control.adicionar(tableColumnId, tableColumnNome, tableColumnData, tableViewPaciente);
+		});
 		
 		tableViewPaciente.getColumns().addAll(tableColumnId, tableColumnNome, tableColumnData,
 												tableColumnEDIT, tableColumnREMOVE);
@@ -92,30 +95,6 @@ public class PacienteView extends Application implements Initializable{
 	
 	public static void main(String[] args) {
 		Application.launch(PacienteView.class, args);
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		initializeNodes();
-		
-	}
-	
-	private void initializeNodes() {
-		// essa função inicia os valores dentro das tabelas
-		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("IdPaciente"));
-		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nomePaciente"));
-		tableColumnData.setCellValueFactory(new PropertyValueFactory<>("dataAniversario"));
-		Utils.formatTableColumnDate(tableColumnData, "dd/MM/yyyy");
-		
-		if (paciente == null) {
-			throw new IllegalStateException("Service was null");
-		}
-
-		List<Paciente> list = paciente.findAll();
-		// somente um ObservableList pode passar parametros para o setItems
-		obsList = FXCollections.observableArrayList(list);
-		tableViewPaciente.setItems(obsList);
-
 	}
 	
 }
