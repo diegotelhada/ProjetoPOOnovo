@@ -16,7 +16,7 @@ public class PacienteForm extends Application{
 	private DatePicker dateNasc = new DatePicker();
 
 	private Button btSalvar = new Button("Salvar");
-	private Button btnPesquisar = new Button("Pesquisar");
+	private Button btnCancelar = new Button("Cancelar");
 	
 	private PacienteFormController form = new PacienteFormController();
 	
@@ -35,10 +35,19 @@ public class PacienteForm extends Application{
         pane.add(dateNasc, 1, 2);
         
         pane.add(btSalvar, 0, 4);
-        pane.add(btnPesquisar, 1, 4);
+        pane.add(btnCancelar, 1, 4);
         
         btSalvar.setOnAction((e) -> {
         	form.salvar(txtNome, txtId, dateNasc);
+        	PacienteView view = new PacienteView();
+			try {
+				view.start(stage);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        });
+        
+        btnCancelar.setOnAction((e) -> {
         	PacienteView view = new PacienteView();
 			try {
 				view.start(stage);

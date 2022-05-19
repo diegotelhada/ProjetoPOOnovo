@@ -16,7 +16,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.dao.impl.PacienteDaoJDBC;
 import model.entities.Paciente;
 
 public class PacienteView extends Application{
@@ -25,8 +24,8 @@ public class PacienteView extends Application{
 	private TableColumn<Paciente, Integer> tableColumnId = new TableColumn<>("ID");
 	private TableColumn<Paciente, String>   tableColumnNome = new TableColumn<>("NOME");
 	private TableColumn<Paciente, Date> tableColumnData = new TableColumn<>("DATA");
-	private TableColumn<Paciente, Paciente> tableColumnEDIT = new TableColumn<>();
-	private TableColumn<Paciente, Paciente> tableColumnREMOVE = new TableColumn<>();
+	private TableColumn<Paciente, Paciente> tableColumnEDIT = new TableColumn<>("EDIT");
+	private TableColumn<Paciente, Paciente> tableColumnREMOVE = new TableColumn<>("REMOVER");
 	
 	private PacienteController control = new PacienteController();
 
@@ -72,7 +71,8 @@ public class PacienteView extends Application{
 		});
 		
 		btAtualizar.setOnAction((e) -> {
-			control.adicionar(tableColumnId, tableColumnNome, tableColumnData, tableViewPaciente);
+			control.adicionar(tableColumnId, tableColumnNome, tableColumnData, tableViewPaciente,
+					tableColumnEDIT, tableColumnREMOVE);
 		});
 		
 		tableViewPaciente.getColumns().addAll(tableColumnId, tableColumnNome, tableColumnData,
@@ -88,7 +88,7 @@ public class PacienteView extends Application{
 		subPan.getChildren().addAll(menuBar, lblTitulo, toolButtons, tableViewPaciente);
 		
 		painel.setContent(subPan);
-		stage.setTitle("SISTEMA CLINICA");
+		stage.setTitle("Sistema clinica");
 		stage.setScene(scn);
 		stage.show();
 	}
