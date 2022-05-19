@@ -24,11 +24,10 @@ public class PacienteForm extends Application{
 	public void start(Stage stage) throws Exception {
 		GridPane pane = new GridPane();
 		Scene scn = new Scene(pane, 500, 300);
+		pane.setMinHeight(6);
+		
 		pane.setVgap(20);
 		pane.setHgap(20);
-		pane.add(new Label("Id"), 0, 0);
-		txtId.setEditable(false);
-        pane.add(txtId, 1, 0);
         pane.add(new Label("Nome"), 0, 1);
         pane.add(txtNome, 1, 1);
         pane.add(new Label("Nascimento"), 0, 2);
