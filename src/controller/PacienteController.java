@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import db.DbException;
 import gui.util.Alerts;
+import gui.util.Utils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -51,6 +52,7 @@ public class PacienteController {
 		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("IdPaciente"));
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nomePaciente"));
 		tableColumnData.setCellValueFactory(new PropertyValueFactory<>("dataAniversario"));
+		Utils.formatTableColumnDate(tableColumnData, "dd/MM/yyyy");
 		tableViewPaciente.setItems(uptadeTable());
 
 		initEditButtons(tableColumnEDIT);

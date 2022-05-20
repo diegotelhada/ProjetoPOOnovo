@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import controller.PacienteFormController;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -24,7 +25,7 @@ public class PacienteForm extends Application {
 	private Button btSalvar = new Button("Salvar");
 	private Button btnCancelar = new Button("Cancelar");
 
-	private PacienteFormController form = new PacienteFormController();
+	private PacienteFormController formControl = new PacienteFormController();
 
 	public PacienteForm() {
 	}
@@ -41,6 +42,7 @@ public class PacienteForm extends Application {
 
 		pane.setVgap(20);
 		pane.setHgap(20);
+		pane.setAlignment(Pos.CENTER);
 		pane.add(new Label("Nome"), 0, 1);
 		pane.add(txtNome, 1, 1);
 		pane.add(new Label("Nascimento"), 0, 2);
@@ -49,8 +51,10 @@ public class PacienteForm extends Application {
 		pane.add(btSalvar, 0, 4);
 		pane.add(btnCancelar, 1, 4);
 
+		// quando instaciado essa tela passando paciente, ele já exibe e troca os botões
+		// de nome
 		if (paciente != null) {
-			
+
 			txtNome.setText(paciente.getNomePaciente());
 			txtId.setText(paciente.getIdPaciente() + "");
 			if (paciente.getDataAniversario() != null) {
@@ -58,22 +62,34 @@ public class PacienteForm extends Application {
 			}
 			btSalvar.setText("Atualizar");
 			btSalvar.setOnAction((e) -> {
-				form.salvar(txtNome, txtId, dateNasc);
-				PacienteView view = new PacienteView();
-				try {
-					view.start(stage);
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				if (txtNome.getText() == null || txtNome.getText().trim().equals("")) {
+					txtNome.setStyle("-fx-border-color: red;");
+				} else if (dateNasc.getValue() == null) {
+					dateNasc.setStyle("-fx-border-color: red;");
+				} else {
+					formControl.salvar(txtNome, txtId, dateNasc);
+					PacienteView view = new PacienteView();
+					try {
+						view.start(stage);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				}
 			});
 		} else {
 			btSalvar.setOnAction((e) -> {
-				form.salvar(txtNome, txtId, dateNasc);
-				PacienteView view = new PacienteView();
-				try {
-					view.start(stage);
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				if (txtNome.getText() == null || txtNome.getText().trim().equals("")) {
+					txtNome.setStyle("-fx-border-color: red;");
+				} else if (dateNasc.getValue() == null) {
+					dateNasc.setStyle("-fx-border-color: red;");
+				} else {
+					formControl.salvar(txtNome, txtId, dateNasc);
+					PacienteView view = new PacienteView();
+					try {
+						view.start(stage);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				}
 			});
 		}
