@@ -27,12 +27,12 @@ public class PacienteView extends Application{
 	private TableColumn<Paciente, Paciente> tableColumnEDIT = new TableColumn<>("EDIT");
 	private TableColumn<Paciente, Paciente> tableColumnREMOVE = new TableColumn<>("REMOVER");
 	
-	private PacienteController control = new PacienteController();
 
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void start(Stage stage) throws Exception {
+		PacienteController control = new PacienteController(stage);
 		ScrollPane painel = new ScrollPane();
 		Scene scn = new Scene(painel);
 		
@@ -67,13 +67,15 @@ public class PacienteView extends Application{
 		toolButtons.getItems().addAll(btNovo, btAtualizar);
 		
 		btNovo.setOnAction((e) -> {
-			control.novo(stage);
+			control.novo();
 		});
 		
 		btAtualizar.setOnAction((e) -> {
-			control.adicionar(tableColumnId, tableColumnNome, tableColumnData, tableViewPaciente,
+			control.atualizar(tableColumnId, tableColumnNome, tableColumnData, tableViewPaciente, 
 					tableColumnEDIT, tableColumnREMOVE);
 		});
+		
+		
 		
 		tableViewPaciente.getColumns().addAll(tableColumnId, tableColumnNome, tableColumnData,
 												tableColumnEDIT, tableColumnREMOVE);

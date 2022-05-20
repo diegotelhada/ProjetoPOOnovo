@@ -58,9 +58,10 @@ public class PacienteDaoJDBC implements PacienteDao {
 		PreparedStatement st = null;
 
 		try {
-			st = conn.prepareStatement("UPDATE paciente " + "SET NomePasc = ?, DataAniv = ? " + "WHERE Id = ?");
+			st = conn.prepareStatement("UPDATE paciente " + "SET NomePaci = ?, DataAniv = ? " + "WHERE Id = ?");
 			st.setString(1, obj.getNomePaciente());
 			st.setDate(2, new java.sql.Date(obj.getDataAniversario().getTime()));
+			st.setInt(3, obj.getIdPaciente());
 
 			st.executeUpdate();
 

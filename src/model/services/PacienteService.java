@@ -26,4 +26,5 @@ public class PacienteService {
 	public void remove(Paciente obj) {
 		dao.deleteById(obj.getIdPaciente());
 	}
+	
 }

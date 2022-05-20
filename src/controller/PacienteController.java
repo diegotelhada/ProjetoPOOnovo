@@ -1,12 +1,16 @@
 package controller;
 
 import java.util.Date;
+import java.util.Optional;
 
-import gui.util.Utils;
+import db.DbException;
+import gui.util.Alerts;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -15,19 +19,25 @@ import javafx.stage.Stage;
 import model.entities.Paciente;
 import model.services.PacienteService;
 import view.PacienteForm;
+import view.PacienteView;
 
 public class PacienteController {
 	private PacienteService service = new PacienteService();
 	private PacienteForm form = new PacienteForm();
+	private Stage stage;
+	
+	public PacienteController(Stage stage) {
+		this.stage = stage;
+	}
 
-	public void adicionar(TableColumn<Paciente, Integer> tableColumnId, TableColumn<Paciente, String> tableColumnNome,
+	public void atualizar(TableColumn<Paciente, Integer> tableColumnId, TableColumn<Paciente, String> tableColumnNome,
 			TableColumn<Paciente, Date> tableColumnData, TableView<Paciente> tableViewPaciente,  
 			TableColumn<Paciente, Paciente> tableColumnEDIT, TableColumn<Paciente, Paciente> tableColumnREMOVE ) {
 		initTable(tableColumnId, tableColumnNome, tableColumnData, tableViewPaciente,
 				tableColumnEDIT, tableColumnREMOVE);
 	}
 
-	public void novo(Stage stage) {
+	public void novo() {
 		try {
 			form.start(stage);
 		} catch (Exception e) {
@@ -57,16 +67,22 @@ public class PacienteController {
 		tableColumnEDIT.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnEDIT.setCellFactory(param -> new TableCell<Paciente, Paciente>() {
 			private final Button button = new Button("Editar");
-
+			
 			@Override
 			protected void updateItem(Paciente obj, boolean empty) {
 				super.updateItem(obj, empty);
+				PacienteForm form = new PacienteForm(obj);
 				if (obj == null) {
 					setGraphic(null);
 					return;
 				}
 				setGraphic(button);
-//				button.setOnAction(event -> createDialogForm(obj, "/gui/PacienteForm.fxml", Utils.currentStage(event)));
+				button.setOnAction((e) -> { try {
+					form.start(stage);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}});
 			}
 		});
 	}
@@ -85,9 +101,30 @@ public class PacienteController {
 					return;
 				}
 				setGraphic(button);
-//				button.setOnAction(event -> removeEntity(obj));
+				button.setOnAction(event -> removeEntity(obj));
 			}
 
 		});
+	}
+	
+	private void removeEntity(Paciente obj) {
+		Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Are you sure to delete?");
+		
+		if(result.get() == ButtonType.OK) {
+			if(service == null) {
+				throw new IllegalStateException("Service was null");
+			}
+			try {
+				service.remove(obj);
+				try {
+					PacienteView view = new PacienteView();
+					view.start(stage);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}catch (DbException e) {
+				Alerts.showAlert("Error removing object", null, e.getMessage(), AlertType.ERROR);
+			}
+		}
 	}
 }
