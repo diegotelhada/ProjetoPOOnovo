@@ -29,8 +29,8 @@ public class SobreView extends Application {
 		lblSistema.setStyle("-fx-font: 45px Ariel;"
 				+ " -fx-stroke: black;"
 				+ " -fx-stroke-width: 1;"
-				+ " -fx-background-color: red;"
-				+ " sada");
+				+ " -fx-background-color: red;");
+		
 		lblDescrição.setStyle("-fx-font: 20px Ariel;");
 		
 		menuBar.getMenus().addAll(menus.getMenuConsulta(), menus.getMenuPaciente(),
