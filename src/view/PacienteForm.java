@@ -103,7 +103,7 @@ public class PacienteForm extends Application {
 			}
 		});
 
-		stage.setTitle("SISTEMA CLINICA");
+		stage.setTitle("Sistema clinica");
 		stage.setScene(scn);
 		stage.show();
 	}

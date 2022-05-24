@@ -41,16 +41,14 @@ public class PacienteView extends Application{
 		subPan.setPrefWidth(600);
 		
 		MenuBar menuBar = new MenuBar();
-		Menu menuConsulta =  new Menu("Consulta");
-		Menu menuPaciente =  new Menu("Paciente");
-		Menu menuEmpresa =  new Menu("Empresa");
-		Menu menuSobre =  new Menu("Sobre");
+		Menus menus = new Menus();
 		
-		MenuItem menuItemConsulta = new MenuItem("Pesquisar/Marcar");
-		MenuItem menuItemPaciente = new MenuItem("Cadastro");
-		MenuItem menuItemEspecializacao = new MenuItem("Especialização");
-		MenuItem menuItemMedico = new MenuItem("Medico");
-		MenuItem menuItemSobre = new MenuItem("Sistema");
+		
+		menus.getMenuItemSobre().setOnAction((e) -> {
+			menus.onActionSobre(stage);
+		});
+		
+		
 		
 		// =================================================================
 		// tela com as informações já cadastradas
@@ -81,12 +79,9 @@ public class PacienteView extends Application{
 												tableColumnEDIT, tableColumnREMOVE);
 		
 		//================================================================
-		menuConsulta.getItems().add(menuItemConsulta);
-		menuPaciente.getItems().add(menuItemPaciente);
-		menuEmpresa.getItems().addAll(menuItemMedico, menuItemEspecializacao);
-		menuSobre.getItems().add(menuItemSobre);
 		
-		menuBar.getMenus().addAll(menuConsulta, menuPaciente, menuEmpresa, menuSobre);
+		menuBar.getMenus().addAll(menus.getMenuConsulta(), menus.getMenuPaciente(),
+				menus.getMenuEmpresa(), menus.getMenuSobre());
 		subPan.getChildren().addAll(menuBar, lblTitulo, toolButtons, tableViewPaciente);
 		
 		painel.setContent(subPan);

@@ -27,6 +27,9 @@ public class PacienteController {
 	private PacienteForm form = new PacienteForm();
 	private Stage stage;
 	
+	public PacienteController() {
+		// TODO Auto-generated constructor stub
+	}
 	public PacienteController(Stage stage) {
 		this.stage = stage;
 	}
