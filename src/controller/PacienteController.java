@@ -36,9 +36,10 @@ public class PacienteController {
 
 	public void atualizar(TableColumn<Paciente, Integer> tableColumnId, TableColumn<Paciente, String> tableColumnNome,
 			TableColumn<Paciente, Date> tableColumnData, TableView<Paciente> tableViewPaciente,  
-			TableColumn<Paciente, Paciente> tableColumnEDIT, TableColumn<Paciente, Paciente> tableColumnREMOVE ) {
+			TableColumn<Paciente, Paciente> tableColumnEDIT, TableColumn<Paciente, Paciente> tableColumnREMOVE,
+			String nome) {
 		initTable(tableColumnId, tableColumnNome, tableColumnData, tableViewPaciente,
-				tableColumnEDIT, tableColumnREMOVE);
+				tableColumnEDIT, tableColumnREMOVE, nome);
 	}
 
 	public void novo() {
@@ -51,20 +52,25 @@ public class PacienteController {
 
 	private void initTable(TableColumn<Paciente, Integer> tableColumnId, TableColumn<Paciente, String> tableColumnNome,
 			TableColumn<Paciente, Date> tableColumnData, TableView<Paciente> tableViewPaciente,
-			TableColumn<Paciente, Paciente> tableColumnEDIT, TableColumn<Paciente, Paciente> tableColumnREMOVE ) {
+			TableColumn<Paciente, Paciente> tableColumnEDIT, TableColumn<Paciente, Paciente> tableColumnREMOVE 
+			, String nome) {
+		initEditButtons(tableColumnEDIT);
+		initRemoveButtons(tableColumnREMOVE);
 		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("IdPaciente"));
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nomePaciente"));
 		tableColumnData.setCellValueFactory(new PropertyValueFactory<>("dataAniversario"));
 		Utils.formatTableColumnDate(tableColumnData, "dd/MM/yyyy");
-		tableViewPaciente.setItems(uptadeTable());
+		tableViewPaciente.setItems(uptadeTable(nome));
 
-		initEditButtons(tableColumnEDIT);
-		initRemoveButtons(tableColumnREMOVE);
+		
 	}
 
-	private ObservableList<Paciente> uptadeTable() {
-
-		return FXCollections.observableArrayList(service.findAll());
+	private ObservableList<Paciente> uptadeTable(String nome) {
+		if(nome == "") {
+			return FXCollections.observableArrayList(service.findAll());
+		}
+		
+		return FXCollections.observableArrayList(service.findByNome(nome));
 	}
 
 	// ESSE METODO CRIA OS BOTÕES DE EDITAR NO PAINEL

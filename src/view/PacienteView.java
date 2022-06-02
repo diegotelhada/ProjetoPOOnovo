@@ -7,12 +7,11 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -60,23 +59,32 @@ public class PacienteView extends Application{
 		
 		ToolBar toolButtons = new ToolBar();
 		Button btNovo = new Button("Novo");
-		Button btAtualizar = new Button("Atualizar");
+		Button btAtualizar = new Button("Pesquisar");
+		TextField txtBuscar = new TextField();
 		
-		toolButtons.getItems().addAll(btNovo, btAtualizar);
+		toolButtons.getItems().addAll(btNovo, btAtualizar, txtBuscar);
+		
 		
 		btNovo.setOnAction((e) -> {
 			control.novo();
 		});
 		
 		btAtualizar.setOnAction((e) -> {
+			
+			String nome = "";
+			if(txtBuscar.getText() == null || txtBuscar.getText().trim().equals("")) {
+				nome = "";
+			}else {
+				nome = txtBuscar.getText();
+			}
 			control.atualizar(tableColumnId, tableColumnNome, tableColumnData, tableViewPaciente, 
-					tableColumnEDIT, tableColumnREMOVE);
+					tableColumnEDIT, tableColumnREMOVE, nome);
 		});
 		
 		
 		
-		tableViewPaciente.getColumns().addAll(tableColumnId, tableColumnNome, tableColumnData,
-												tableColumnEDIT, tableColumnREMOVE);
+		tableViewPaciente.getColumns().addAll(tableColumnEDIT, tableColumnREMOVE, 
+				tableColumnId, tableColumnNome, tableColumnData);
 		
 		//================================================================
 		
@@ -84,6 +92,7 @@ public class PacienteView extends Application{
 				menus.getMenuEmpresa(), menus.getMenuSobre());
 		subPan.getChildren().addAll(menuBar, lblTitulo, toolButtons, tableViewPaciente);
 		
+		painel.setMaxHeight(600);
 		painel.setContent(subPan);
 		stage.setTitle("Sistema clinica");
 		stage.setScene(scn);

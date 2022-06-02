@@ -37,7 +37,7 @@ public class PacienteForm extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		GridPane pane = new GridPane();
-		Scene scn = new Scene(pane, 500, 300);
+		Scene scn = new Scene(pane, 600, 400);
 		pane.setMinHeight(6);
 
 		pane.setVgap(20);
