@@ -162,7 +162,7 @@ public class MedicacaoDaoJDBC implements MedicacaoDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conn.prepareStatement("SELECT Medicacao.* FROM Medicacao WHERE (NomeMedic LIKE '" + nome + "%' ORDER BY (QuantidadeMedic");
+			st = conn.prepareStatement("SELECT Medicacao.* FROM Medicacao WHERE NomeMedic LIKE '" + nome + "%' ORDER BY id");
 			
 			rs = st.executeQuery();
 
