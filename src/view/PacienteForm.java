@@ -51,8 +51,7 @@ public class PacienteForm extends Application {
 		pane.add(btSalvar, 0, 4);
 		pane.add(btnCancelar, 1, 4);
 
-		// quando instaciado essa tela passando paciente, ele já exibe e troca os botões
-		// de nome
+
 		if (paciente != null) {
 
 			txtNome.setText(paciente.getNomePaciente());

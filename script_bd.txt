@@ -1,0 +1,82 @@
+
+//criar o banco
+create database  aulapooconsul; 
+//setar o uso do banco
+use aulapooconsul;
+
+//criando tabelas e atribuindo valores
+CREATE TABLE paciente (
+  Id int(11) NOT NULL AUTO_INCREMENT,
+  NomePaci varchar(60) DEFAULT NULL,
+  DataAniv datetime NOT NULL,
+  PRIMARY KEY (Id)
+);
+CREATE TABLE espec (
+  Id int(11) NOT NULL AUTO_INCREMENT,
+  NomeEspec varchar(60) DEFAULT NULL,
+  PRIMARY KEY (Id)
+);
+
+CREATE TABLE diagnostico (
+  Id int(11) NOT NULL AUTO_INCREMENT,
+  NomeDiagno varchar(60) DEFAULT NULL,
+  PRIMARY KEY (Id)
+);
+
+CREATE TABLE profissional (
+  Id int(11) NOT NULL AUTO_INCREMENT,
+  NomeProfi varchar(60) NOT NULL,
+  Email varchar(100) NOT NULL,
+  DataAniv datetime NOT NULL,
+  SalarioBase double NOT NULL,
+  EspecId int(11) NOT NULL,
+  PRIMARY KEY (Id),
+  FOREIGN KEY (EspecId) REFERENCES espec (Id)
+);
+
+CREATE TABLE consulta (
+  IdConsul int(11) NOT NULL AUTO_INCREMENT,
+  DataConsul datetime NOT NULL,
+  PacienteId int(11) NOT NULL,
+  ProfissionalId int(11) NOT NULL,
+  DiagnoId int(11) NOT NULL,
+  PRIMARY KEY (IdConsul),
+  FOREIGN KEY (PacienteId) REFERENCES paciente (Id),
+  FOREIGN KEY (DiagnoId) REFERENCES diagnostico (Id),
+  FOREIGN KEY (ProfissionalId) REFERENCES profissional (Id)
+);
+
+CREATE TABLE medicacao (
+  Id int(11) NOT NULL AUTO_INCREMENT,
+  NomeMedic varchar(60) NOT NULL,
+  DataVal datetime NOT NULL,
+  ValorMedic float NOT NULL,
+  QuantidadeMedic int(11) NOT NULL,
+  PRIMARY KEY (Id)
+);
+
+  INSERT INTO medicacao (NomeMedic, DataVal, ValorMedic, QuantidadeMedic) VALUES 
+  ('Gardenal 50mg','2023-04-21 00:00:00',50.50, 10),
+  ('Gardenal 25mg','2012-12-31 00:00:00',40.78, 15),
+  ('Aspirina','2024-01-15 00:00:00',12.50, 22),
+  ('Paracetamol','2023-11-30 00:00:00',15.80, 60),
+  ('Sertralina 20mg','2023-01-09 00:00:00',80.00, 82),
+  ('Fluoxetina 50mg','2022-03-04 00:00:00',68.00, 51);
+
+
+CREATE TABLE equipamento (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  NomeEquip varchar(60) NOT NULL,
+  DataFab datetime NOT NULL,
+  ValorEquip float NOT NULL,
+  PRIMARY KEY (Id)
+);
+
+  INSERT INTO equipamento (NomeEquip, DataFab, ValorEquip) VALUES 
+  ('Ressonancia Adulto','2021-04-21 00:00:00',10000.50),
+  ('Ressonancia Crianca','2018-12-31 00:00:00',8500.78),
+  ('Maca Automatica','2015-01-15 00:00:00',22000.50),
+  ('Estacao Hemodialise','2022-11-30 00:00:00',3000.80),
+  ('Ultrassom','2020-01-09 00:00:00',4000.00),
+  ('Raio X','2017-03-04 00:00:00',30000.00);
+

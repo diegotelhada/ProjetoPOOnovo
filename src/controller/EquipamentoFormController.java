@@ -10,16 +10,16 @@ import gui.util.Utils;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import model.entities.Paciente;
+import model.entities.Equipamento;
 import model.exceptions.ValidationException;
-import model.services.PacienteService;
+import model.services.EquipamentoService;
 
-public class PacienteFormController {
-	private Paciente entidade = new Paciente();
+public class EquipamentoFormController {
+	private Equipamento entidade = new Equipamento();
 
-	private PacienteService service = new PacienteService();
+	private EquipamentoService service = new EquipamentoService();
 	
-	public void salvar(TextField txtNome, TextField txtId, DatePicker dpNasc) {
+	public void salvarEquip(TextField txtNome, TextField txtId, TextField vlEquip, DatePicker dpNasc) {
 		
 		if (entidade == null) {
 			throw new IllegalStateException("Entity was null");
@@ -28,7 +28,7 @@ public class PacienteFormController {
 			throw new IllegalStateException("Service was null");
 		}
 		try {
-			entidade = getFormData(txtNome, txtId, dpNasc);
+			entidade = getFormData(txtNome, txtId, vlEquip, dpNasc);
 			service.saveOrUptade(entidade);
 
 		}catch (DbException e) {
@@ -38,25 +38,30 @@ public class PacienteFormController {
 		
 	}
 
-	private Paciente getFormData(TextField txtNome, TextField txtId, DatePicker dpNasc) {
-		Paciente obj = new Paciente();
+	private Equipamento getFormData(TextField txtNome, TextField txtId, TextField vlEquip, DatePicker dpNasc) {
+		Equipamento obj = new Equipamento();
 
 		ValidationException exception = new ValidationException("Validation Errors");
 
-		obj.setIdPaciente(Utils.tryParseToInt(txtId.getText()));
+		obj.setIdEquipamento(Utils.tryParseToInt(txtId.getText()));
 
-		obj.setNomePaciente(txtNome.getText());
+		obj.setNomeEquipamento(txtNome.getText());
+		
+		obj.setValorEquipamento(Float.parseFloat(vlEquip.getText()));
 		
 		if(txtNome.getText() == null || txtNome.getText().trim().equals("")) {
-			exception.addError("nome", "Fields can't be empty");
+			exception.addError("NomeEquip", "Fields can't be empty");
 		}
 		
+		if(vlEquip.getText() == null || vlEquip.getText().trim().equals("")) {
+			exception.addError("NomeEquip", "Fields can't be empty");}
+	
 		if (dpNasc.getValue() == null) {
-			exception.addError("dataAniv", "Fields can't be empty");
+			exception.addError("DataFab", "Fields can't be empty");
 		}else {
 			Instant instant = Instant.from(dpNasc.getValue().atStartOfDay(ZoneId.systemDefault()));
 		
-			obj.setDataAniversario(Date.from(instant));
+			obj.setDataFabricacao(Date.from(instant));
 		}
 
 		if (exception.getErrors().size() > 0) {

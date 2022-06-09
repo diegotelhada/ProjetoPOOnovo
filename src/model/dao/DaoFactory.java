@@ -3,7 +3,9 @@ package model.dao;
 import db.DB;
 import model.dao.impl.ConsultaDaoJDBC;
 import model.dao.impl.DiagnosticoDaoJDBC;
+import model.dao.impl.EquipamentoDaoJDBC;
 import model.dao.impl.EspecializacaoDaoJDBC;
+import model.dao.impl.MedicacaoDaoJDBC;
 import model.dao.impl.PacienteDaoJDBC;
 import model.dao.impl.ProfissionalDaoJDBC;
 
@@ -27,5 +29,13 @@ public class DaoFactory {
 	
 	public static EspecializacaoDao createEspecializacaoDao() {
 		return new EspecializacaoDaoJDBC(DB.getConnection());
+	}
+	
+	public static EquipamentoDao createEquipamentoDao() {
+		return new EquipamentoDaoJDBC(DB.getConnection());
+	}
+	
+	public static MedicacaoDao createMedicacaoDao() {
+		return new MedicacaoDaoJDBC(DB.getConnection());
 	}
 }

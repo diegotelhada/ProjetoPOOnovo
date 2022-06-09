@@ -13,8 +13,8 @@ public class DB {
 	
 	private static Connection conn = null;
 	
-	//essa função vai fazer a conexão ao SQL
-	//DriverManager devolve o atributo para conexão do connection
+	//essa funcao vai fazer a conexao SQL
+	//DriverManager devolve o atributo para conexao do connection
 	public static Connection getConnection() {
 		if(conn == null) {
 			try {
@@ -28,7 +28,7 @@ public class DB {
 		return conn;
 	}
 	
-	//essa função serve para fechar a conexão com o banco
+	//essa funï¿½ï¿½o serve para fechar a conexï¿½o com o banco
 	public static void closeConnection() {
 		if(conn != null) {
 			try {
@@ -57,7 +57,7 @@ public class DB {
 		}
 	}
 	
-	//essa função serve para acessar o arquivo do tipo properties e fazer a leitura
+	//essa funï¿½ï¿½o serve para acessar o arquivo do tipo properties e fazer a leitura
 	//precisa estar dentro de um try catch
 	private static Properties loadProperties() {
 		try(FileInputStream fs = new FileInputStream("db.properties")){

@@ -2,8 +2,9 @@ package view;
 
 import java.util.Date;
 
-import controller.PacienteController;
+import controller.EquipamentoController;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,23 +16,23 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.entities.Paciente;
+import model.entities.Equipamento;
 
-public class PacienteView extends Application{
-	
-	private TableView<Paciente> tableViewPaciente = new TableView<>();
-	private TableColumn<Paciente, Integer> tableColumnId = new TableColumn<>("ID");
-	private TableColumn<Paciente, String>   tableColumnNome = new TableColumn<>("NOME");
-	private TableColumn<Paciente, Date> tableColumnData = new TableColumn<>("DATA");
-	private TableColumn<Paciente, Paciente> tableColumnEDIT = new TableColumn<>("EDIT");
-	private TableColumn<Paciente, Paciente> tableColumnREMOVE = new TableColumn<>("REMOVER");
-	
+public class EquipamentoView extends Application {
+
+	private TableView<Equipamento> tableViewEquipamento = new TableView<>();
+	private TableColumn<Equipamento, Integer> tableColumnId = new TableColumn<>("ID");
+	private TableColumn<Equipamento, String>   tableColumnNome = new TableColumn<>("NOME");
+	private TableColumn<Equipamento, Float> tableColumnValor = new TableColumn<>("VALOR");
+	private TableColumn<Equipamento, Date> tableColumnData = new TableColumn<>("FABRICACAO");
+	private TableColumn<Equipamento, Equipamento> tableColumnEDIT = new TableColumn<>("EDIT");
+	private TableColumn<Equipamento, Equipamento> tableColumnREMOVE = new TableColumn<>("REMOVE");
 
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void start(Stage stage) throws Exception {
-		PacienteController control = new PacienteController(stage);
+		EquipamentoController control = new EquipamentoController(stage);
 		ScrollPane painel = new ScrollPane();
 		Scene scn = new Scene(painel);
 		
@@ -46,20 +47,14 @@ public class PacienteView extends Application{
 		menus.getMenuItemSobre().setOnAction((e) -> {
 			menus.onActionSobre(stage);
 		});
-		
-		menus.getMenuItemEquipamento().setOnAction((e) -> {
-			menus.onActionEquip(stage);
-		});
-		
+			
 		menus.getMenuItemMedicacao().setOnAction((e) -> {
 			menus.onActionMedic(stage);
 		});
 		
-		
-		
 		// =================================================================
 		
-		Label lblTitulo = new Label("Menu Paciente");
+		Label lblTitulo = new Label("Cadastro Equipamentos");
 		lblTitulo.setStyle("-fx-font-size: 24px;"
 				+ " -fx-alignment: center-left; "
 				+ "	-fx-pref-height: 30");
@@ -78,26 +73,26 @@ public class PacienteView extends Application{
 		
 		btAtualizar.setOnAction((e) -> {
 			
-			String nome = "";
+			String nomeEquip = "";
 			if(txtBuscar.getText() == null || txtBuscar.getText().trim().equals("")) {
-				nome = "";
+				nomeEquip = "";
 			}else {
-				nome = txtBuscar.getText();
+				nomeEquip = txtBuscar.getText();
 			}
-			control.atualizar(tableColumnId, tableColumnNome, tableColumnData, tableViewPaciente, 
-					tableColumnEDIT, tableColumnREMOVE, nome);
+			control.atualizarEquip(tableColumnId, tableColumnNome, tableColumnValor, tableColumnData, tableViewEquipamento, 
+					tableColumnEDIT, tableColumnREMOVE, nomeEquip);
 		});
 		
 		
 		
-		tableViewPaciente.getColumns().addAll(tableColumnEDIT, tableColumnREMOVE, 
-				tableColumnId, tableColumnNome, tableColumnData);
+		tableViewEquipamento.getColumns().addAll( 
+				tableColumnId, tableColumnNome, tableColumnValor, tableColumnData, tableColumnEDIT, tableColumnREMOVE);
 		
 		//================================================================
 		
-		menuBar.getMenus().addAll(menus.getMenuConsulta(), menus.getMenuPaciente(),
-				menus.getMenuEmpresa(), menus.getMenuSobre(), menus.getMenuEquipamento());
-		subPan.getChildren().addAll(menuBar, lblTitulo, toolButtons, tableViewPaciente);
+		menuBar.getMenus().addAll(menus.getMenuConsulta(), menus.getMenuEquipamento(),
+				menus.getMenuEmpresa(), menus.getMenuSobre());
+		subPan.getChildren().addAll(menuBar, lblTitulo, toolButtons, tableViewEquipamento);
 		
 		painel.setMaxHeight(600);
 		painel.setContent(subPan);
@@ -105,9 +100,5 @@ public class PacienteView extends Application{
 		stage.setScene(scn);
 		stage.show();
 	}
-	
-	public static void main(String[] args) {
-		Application.launch(PacienteView.class, args);
-	}
-	
+
 }

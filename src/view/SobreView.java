@@ -23,7 +23,7 @@ public class SobreView extends Application {
 		MenuBar menuBar = new MenuBar();
 		Menus menus = new Menus();
 		
-		Label lblDescrição = new Label("Sistema criado por \n Henrique Amorim \n Matheus \n Alex \n Diego Telhada");
+		Label lblDescricao = new Label("Sistema criado por \n Henrique Amorim \n Matheus \n Alex \n Diego Telhada");
 		
 		Label lblSistema = new Label("SOBRE O SISTEMA");
 		lblSistema.setStyle("-fx-font: 45px Ariel;"
@@ -31,11 +31,19 @@ public class SobreView extends Application {
 				+ " -fx-stroke-width: 1;"
 				+ " -fx-background-color: red;");
 		
-		lblDescrição.setStyle("-fx-font: 20px Ariel;");
+		lblDescricao.setStyle("-fx-font: 20px Ariel;");
+		
+		menus.getMenuItemEquipamento().setOnAction((e) -> {
+			menus.onActionEquip(stage);
+		});
+		
+		menus.getMenuItemMedicacao().setOnAction((e) -> {
+			menus.onActionMedic(stage);
+		});
 		
 		menuBar.getMenus().addAll(menus.getMenuConsulta(), menus.getMenuPaciente(),
-				menus.getMenuEmpresa(), menus.getMenuSobre());
-		subPan.getChildren().addAll(menuBar, lblSistema, lblDescrição);
+				menus.getMenuEmpresa(), menus.getMenuSobre(), menus.getMenuEquipamento());
+		subPan.getChildren().addAll(menuBar, lblSistema, lblDescricao);
 		painel.setContent(subPan);
 		stage.setTitle("Sistema clinica");
 		stage.setScene(scn);
